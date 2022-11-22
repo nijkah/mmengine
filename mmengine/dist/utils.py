@@ -58,6 +58,8 @@ def init_dist(launcher, backend='nccl', **kwargs) -> None:
         _init_dist_mpi(backend, **kwargs)
     elif launcher == 'slurm':
         _init_dist_slurm(backend, **kwargs)
+    elif launcher == 'deepspeed':
+        _init_dist_deepspeed(backend, **kwargs)
     else:
         raise ValueError(f'Invalid launcher type: {launcher}')
 
@@ -156,6 +158,20 @@ def _init_dist_slurm(backend, port=None) -> None:
     os.environ['LOCAL_RANK'] = str(proc_id % num_gpus)
     os.environ['RANK'] = str(proc_id)
     torch_dist.init_process_group(backend=backend)
+
+
+def _init_dist_deepspeed(backend, **kwargs) -> None:
+    """Initialize deepspeed distributed training environment.
+    Args:
+        backend (str): Backend of torch.distributed. Supported backends are
+            'nccl', 'gloo' and 'mpi'. Defaults to 'nccl'.
+        **kwargs: keyword arguments are passed to ``init_distributed``.
+    """
+    import deepspeed
+
+    local_rank = int(os.environ['LOCAL_RANK'])
+    torch.cuda.set_device(local_rank)
+    deepspeed.init_distributed(dist_backend=backend, **kwargs)
 
 
 def init_local_group(node_rank: int, num_gpus_per_node: int):
