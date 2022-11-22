@@ -1,7 +1,8 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from .optimizer import (OPTIM_WRAPPER_CONSTRUCTORS, OPTIMIZERS,
-                        AmpOptimWrapper, DefaultOptimWrapperConstructor,
-                        OptimWrapper, OptimWrapperDict, build_optim_wrapper)
+                        AmpOptimWrapper, DeepSpeedOptimWrapper,
+                        DefaultOptimWrapperConstructor, OptimWrapper,
+                        OptimWrapperDict, build_optim_wrapper)
 # yapf: disable
 from .scheduler import (ConstantLR, ConstantMomentum, ConstantParamScheduler,
                         CosineAnnealingLR, CosineAnnealingMomentum,
@@ -25,5 +26,5 @@ __all__ = [
     'LinearParamScheduler', 'MultiStepParamScheduler', 'StepParamScheduler',
     '_ParamScheduler', 'OptimWrapper', 'AmpOptimWrapper', 'OptimWrapperDict',
     'OneCycleParamScheduler', 'OneCycleLR', 'PolyLR', 'PolyMomentum',
-    'PolyParamScheduler'
+    'PolyParamScheduler', 'DeepSpeedOptimWrapper'
 ]
